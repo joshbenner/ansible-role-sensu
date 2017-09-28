@@ -10,16 +10,6 @@
     - "{{ ansible_distribution | lower }}.yml"
     - "{{ ansible_os_family | lower }}.yml"
 
-- name: Merge Sensu configs
-  sensu_merge:
-    suffix: _sensu_{{ item }}
-    var_name: sensu_{{ item }}
-  with_items:
-    - checks
-    - handlers
-    - filters
-    - mutators
-
 - include: install.yml
 
 - include: configure.yml
