@@ -6,10 +6,43 @@ sensu_debian_repo_key_url: https://sensu.global.ssl.fastly.net/apt/pubkey.gpg
 sensu_debian_repo_url: deb https://sensu.global.ssl.fastly.net/apt {{ ansible_distribution_release }} main
 sensu_redhat_repo_url: https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/
 
-sensu_install_server: yes
+sensu_state: present
+sensu_version: ""
 
+sensu_user: sensu
+sensu_group: sensu
 
-sensu_install_api: yes
+sensu_config_file: /etc/sensu/config.json
+sensu_config_dir: /etc/sensu/conf.d
 
+sensu_enable_server: yes
+sensu_enable_api: yes
+sensu_enable_client: yes
 
-sensu_install_client: yes
+sensu_config:
+  transport:
+    name: "{{ sensu_transport_name }}"
+  rabbitmq: "{{ sensu_rabbitmq_config }}"
+  redis: "{{ sensu_redis_config }}"
+
+sensu_transport_name: rabbitmq
+sensu_rabbitmq_config: {}
+sensu_redis_config: {}
+sensu_api_config: {}
+sensu_client_config: {}
+
+# Calculated by merged variables (see tasks/main.yml)
+# sensu_checks: {}
+# sensu_handlers: {}
+# sensu_filters: {}
+# sensu_mutators: {}
+
+foo_sensu_checks:
+  foo:
+    command: ls /
+    interval: 60
+
+bar_sensu_checks:
+  bar:
+    command: ps
+    interval: 60

@@ -1,0 +1,35 @@
+---
+- name: Make sure apt can do https
+  apt:
+    name: apt-transport-https
+    state: present
+  when: sensu_install_repo and ansible_os_family == 'Debian'
+
+- name: Install Sensu repo key
+  apt_key:
+    url: "{{ sensu_debian_repo_key_url }}"
+    state: "{{ 'present' if sensu_install_repo else 'absent' }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Install Sensu apt repository
+  apt_repository:
+    repo: "{{ sensu_debian_repo_url }}"
+    filename: sensu
+    state: "{{ 'present' if sensu_install_repo else 'absent' }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Install yum repository
+  yum_repository:
+    name: sensu
+    description: Sensu
+    file: sensu
+    baseurl: "{{ sensu_redhat_repo_url }}"
+    gpgcheck: no
+    enabled: yes
+    state: "{{ 'present' if sensu_install_repo else 'absent' }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: Ensure Sensu is {{ 'UN' if not sensu_state else '' }}installed
+  package:
+    name: sensu{{ ('-' + sensu_version) if sensu_version|length else '' }}
+    state: "{{ sensu_state }}"
