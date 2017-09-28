@@ -1,0 +1,15 @@
+---
+# defaults file for sensu
+
+sensu_install_repo: yes
+sensu_debian_repo_key_url: https://sensu.global.ssl.fastly.net/apt/pubkey.gpg
+sensu_debian_repo_url: deb https://sensu.global.ssl.fastly.net/apt {{ ansible_distribution_release }} main
+sensu_redhat_repo_url: https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/
+
+sensu_install_server: yes
+
+
+sensu_install_api: yes
+
+
+sensu_install_client: yes
