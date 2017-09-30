@@ -14,10 +14,13 @@ sensu_group: sensu
 
 sensu_config_file: /etc/sensu/config.json
 sensu_config_dir: /etc/sensu/conf.d
+sensu_plugins_dir: /
 
 sensu_enable_server: yes
 sensu_enable_api: yes
 sensu_enable_client: yes
+
+sensu_plugin_dependencies: "{{ sensu_default_plugin_dependencies }}"
 
 sensu_config:
   transport:
@@ -31,18 +34,11 @@ sensu_redis_config: {}
 sensu_api_config: {}
 sensu_client_config: {}
 
-# Calculated by merged variables (see tasks/main.yml)
+# Calculated by merged variables (see tasks/configuration.yml)
 # sensu_checks: {}
 # sensu_handlers: {}
 # sensu_filters: {}
 # sensu_mutators: {}
 
-foo_sensu_checks:
-  foo:
-    command: ls /
-    interval: 60
-
-bar_sensu_checks:
-  bar:
-    command: ps
-    interval: 60
+# Merged variables (see tasks/plugins.yml)
+# sensu_plugins: {}

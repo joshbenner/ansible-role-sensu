@@ -1,1 +1,3 @@
 ---
+sensu_default_plugin_dependencies:
+  - build-essential

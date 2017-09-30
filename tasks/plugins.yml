@@ -1,0 +1,20 @@
+---
+- name: Install plugin dependencies
+  package:
+    name: "{{ sensu_plugin_dependencies }}"
+    state: present
+
+- name: Gather list of plugins to install
+  sensu_merge:
+    suffix: _sensu_plugins
+    var_name: sensu_plugins
+    type: list
+
+- name: Install Sensu plugins
+  command: sensu-install -P {{ sensu_plugins | join(',') }}
+  register: _sensu_install
+  changed_when: "'successfully installed Sensu plugins: []' not in _sensu_install.stdout"
+  notify:
+    - restart sensu-client
+    - restart sensu-server
+    - restart sensu-api

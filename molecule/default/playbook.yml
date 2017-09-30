@@ -2,5 +2,45 @@
 - name: Converge
   hosts: all
   become: yes
+  pre_tasks:
+    - name: Run Redis and RabbitMQ
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - rabbitmq-server
+        - "{{ 'redis' if ansible_os_family == 'RedHat' else 'redis-server' }}"
   roles:
     - role: ../../..
+      test_sensu_plugins:
+        - cpu-checks
+        - memory-checks
+        - network-checks
+        - rabbitmq
+        - redis
+      test_sensu_checks:
+        check_cpu:
+          command: check-cpu.rb -w 80 -c 95
+          interval: 60
+          standalone: true
+        check_memory:
+          command: check-memory-percent.rb -w 70 -c 80
+          interval: 60
+          standalone: true
+        check_swap:
+          command: check-swap-percent.rb -w 50 -c 80
+          interval: 60
+          standalone: true
+        check_route:
+          command: check-ping.rb -h {{ ansible_default_ipv4.gateway }} -W 90 -C 50
+          interval: 60
+          standalone: true
+        check_rabbitmq_alive:
+          command: check-rabbitmq-amqp-alive.rb
+          interval: 60
+          standalone: true
+        check_redis_alive:
+          command: check-redis-ping.rb
+          interval: 60
+          standalone: true
