@@ -13,6 +13,8 @@
         - "{{ 'redis' if ansible_os_family == 'RedHat' else 'redis-server' }}"
   roles:
     - role: ../../..
+      sensu_enable_server: yes
+      sensu_enable_api: yes
       test_sensu_plugins:
         - cpu-checks
         - memory-checks

@@ -97,6 +97,8 @@ Example Playbook
     - role: joshbenner.rabbitmq
     - role: DavidWittman.redis
     - role: joshbenner.sensu
+      sensu_enable_server: yes
+      sensu_enable_api: yes
       my_sensu_plugins:
         - cpu-checks
         - memory-checks
