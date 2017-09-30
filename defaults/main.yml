@@ -14,7 +14,6 @@ sensu_group: sensu
 
 sensu_config_file: /etc/sensu/config.json
 sensu_config_dir: /etc/sensu/conf.d
-sensu_plugins_dir: /
 
 sensu_enable_server: yes
 sensu_enable_api: yes
