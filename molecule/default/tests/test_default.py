@@ -11,7 +11,7 @@ def test_packages(host):
 
 
 def test_main_config(host):
-    f =  host.file('/etc/sensu/config.json')
+    f = host.file('/etc/sensu/config.json')
     assert f.exists
     assert f.is_file
     assert f.user == 'sensu'

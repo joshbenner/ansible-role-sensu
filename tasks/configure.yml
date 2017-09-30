@@ -4,10 +4,10 @@
     suffix: _sensu_{{ item }}
     var_name: sensu_{{ item }}
   with_items:
-  - checks
-  - handlers
-  - filters
-  - mutators
+    - checks
+    - handlers
+    - filters
+    - mutators
 
 - name: Configure Sensu
   copy:
