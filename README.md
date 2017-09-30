@@ -31,7 +31,104 @@ Available variables listed below. For defaults, see `defaults/main.yml`.
 | `sensu_redis_config`        | Redis configuration scope.                                            |
 | `sensu_api_config`          | API configuration scope.                                              |
 | `sensu_client_config`       | Client configuration scope.                                           |
-|                             |                                                                       |
+
+Merged Configurations
+---------------------
+
+The role will merge variables with specific suffixes to assemble configurations for things like checks from multiple sources without needing Ansible merging enabled.
+
+For instance, if you have vars in `group_vars/all`:
+
+```yml
+base_sensu_checks:
+  check_memory:
+    command: check-memory-percent.rb -w 70 -c 80
+    interval: 60
+    standalone: true
+  check_swap:
+    command: check-swap-percent.rb -w 50 -c 80
+    interval: 60
+    standalone: true
+```
+
+and in `group_vars/rabbit-servers`:
+
+```yaml
+rabbitmq_sensu_checks:
+  check_rabbitmq_alive:
+    command: check-rabbitmq-amqp-alive.rb
+    interval: 60
+    standalone: true
+```
+
+Then on a server in the `rabbit-servers` group, the checks will be combined to result in a configuration like:
+
+```yaml
+sensu_checks:
+  check_memory:
+    command: check-memory-percent.rb -w 70 -c 80
+    interval: 60
+    standalone: true
+  check_swap:
+    command: check-swap-percent.rb -w 50 -c 80
+    interval: 60
+    standalone: true
+  check_rabbitmq_alive:
+    command: check-rabbitmq-amqp-alive.rb
+    interval: 60
+    standalone: true
+```
+
+The following suffixes are merged for Sensu configurations:
+
+* `_sensu_checks`
+* `_sensu_handlers`
+* `_sensu_filters`
+* `_sensu_mutators`
+* `_sensu_plugins`
+
+Example Playbook
+----------------
+
+```yaml
+- hosts: all
+  become: yes
+  roles:
+    - role: joshbenner.rabbitmq
+    - role: DavidWittman.redis
+    - role: joshbenner.sensu
+      my_sensu_plugins:
+        - cpu-checks
+        - memory-checks
+        - network-checks
+        - rabbitmq
+        - redis
+      my_sensu_checks:
+        check_cpu:
+          command: check-cpu.rb -w 80 -c 95
+          interval: 60
+          standalone: true
+        check_memory:
+          command: check-memory-percent.rb -w 70 -c 80
+          interval: 60
+          standalone: true
+        check_swap:
+          command: check-swap-percent.rb -w 50 -c 80
+          interval: 60
+          standalone: true
+        check_route:
+          command: check-ping.rb -h {{ ansible_default_ipv4.gateway }} -W 90 -C 50
+          interval: 60
+          standalone: true
+        check_rabbitmq_alive:
+          command: check-rabbitmq-amqp-alive.rb
+          interval: 60
+          standalone: true
+        check_redis_alive:
+          command: check-redis-ping.rb
+          interval: 60
+          standalone: true
+```
 
 License
 -------
