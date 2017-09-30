@@ -12,6 +12,7 @@
 
 - name: Install Sensu plugins
   command: sensu-install -P {{ sensu_plugins | join(',') }}
+  when: sensu_plugins | length > 0
   register: _sensu_install
   changed_when: "'successfully installed Sensu plugins: []' not in _sensu_install.stdout"
   notify:
