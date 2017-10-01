@@ -21,6 +21,7 @@ def test_main_config(host):
     assert f.contains('check-cpu.rb')
     assert f.contains('"foo": "bar"')
     assert f.contains('example_subscription')
+    assert f.contains('"zip": "zap"')
     assert not f.contains('subscription_to_be_overridden')
 
 

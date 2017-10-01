@@ -27,6 +27,8 @@
         - network-checks
         - rabbitmq
         - redis
+      test_sensu_extra_configs:
+        zip: zap
       test_sensu_checks:
         check_cpu:
           command: check-cpu.rb -w 80 -c 95

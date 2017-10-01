@@ -20,10 +20,16 @@
     var_name: sensu_client_subscriptions
     type: list
 
+- name: Collect extra Sensu configs
+  sensu_merge:
+    suffix: _sensu_extra_configs
+    var_name: sensu_extra_configs
+
+# All in one file so we can validate the full config before restarts.
 - name: Configure Sensu
   copy:
     dest: "{{ sensu_config_file }}"
-    content: "{{ sensu_config | to_nice_json }}\n"
+    content: "{{ sensu_config | combine(sensu_extra_configs) | to_nice_json }}\n"
     owner: "{{ sensu_user }}"
     group: "{{ sensu_group }}"
     mode: 0600
