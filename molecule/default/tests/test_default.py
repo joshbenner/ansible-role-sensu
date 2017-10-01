@@ -19,6 +19,7 @@ def test_main_config(host):
     assert f.mode == 0o600
     assert f.contains('rabbitmq')
     assert f.contains('check-cpu.rb')
+    assert f.contains('"foo": "bar"')
 
 
 def test_server_running(host):

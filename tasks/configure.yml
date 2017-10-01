@@ -9,6 +9,11 @@
     - filters
     - mutators
 
+- name: Compile client attributes
+  sensu_merge:
+    suffix: _sensu_client_attributes
+    var_name: sensu_client_attributes
+
 - name: Configure Sensu
   copy:
     dest: "{{ sensu_config_file }}"
