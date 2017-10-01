@@ -5,13 +5,13 @@
 
 - name: restart sensu-server
   shell: >
-    sleep {{ sensu_cluster_interval * sensu_cluster_offset }};
+    sleep {{ sensu_cluster_interval|int * sensu_cluster_offset|int }};
     systemctl restart sensu-server
   when: sensu_enable_server
 
 - name: restart sensu-api
   shell: >
-    sleep {{ sensu_cluster_interval * sensu_cluster_offset }};
+    sleep {{ sensu_cluster_interval|int * sensu_cluster_offset|int }};
     systemctl restart sensu-api
   when: sensu_enable_api
 
