@@ -1,16 +1,18 @@
 ---
 # handlers file for sensu
 
+# Use shell instead of service so we can stagger restarts in a cluster.
+
 - name: restart sensu-server
-  service:
-    name: sensu-server
-    state: restarted
+  shell: >
+    sleep {{ sensu_cluster_interval * sensu_cluster_offset }};
+    systemctl restart sensu-server
   when: sensu_enable_server
 
 - name: restart sensu-api
-  service:
-    name: sensu-api
-    state: restarted
+  shell: >
+    sleep {{ sensu_cluster_interval * sensu_cluster_offset }};
+    systemctl restart sensu-api
   when: sensu_enable_api
 
 - name: restart sensu-client

@@ -14,18 +14,23 @@ sensu_group: sensu
 
 sensu_config_file: /etc/sensu/config.json
 sensu_config_dir: /etc/sensu/conf.d
+sensu_bin: /opt/sensu/bin
 
 sensu_enable_server: no
 sensu_enable_api: no
 sensu_enable_client: yes
-
-sensu_plugin_dependencies: "{{ sensu_default_plugin_dependencies }}"
 
 sensu_config:
   transport:
     name: "{{ sensu_transport_name }}"
   rabbitmq: "{{ sensu_rabbitmq_config }}"
   redis: "{{ sensu_redis_config }}"
+  api: "{{ sensu_api_config }}"
+  client: "{{ sensu_client_config }}"
+  checks: "{{ sensu_checks }}"
+  handlers: "{{ sensu_handlers }}"
+  filters: "{{ sensu_filters }}"
+  mutators: "{{ sensu_mutators }}"
 
 sensu_transport_name: rabbitmq
 sensu_rabbitmq_config: {}
@@ -40,4 +45,8 @@ sensu_client_config: {}
 # sensu_mutators: {}
 
 # Merged variables (see tasks/plugins.yml)
-# sensu_plugins: {}
+# sensu_plugins: []
+# sensu_plugin_dependencies: []
+
+sensu_cluster_offset: 0
+sensu_cluster_interval: 5

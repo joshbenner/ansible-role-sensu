@@ -18,15 +18,6 @@ def test_main_config(host):
     assert f.group == 'sensu'
     assert f.mode == 0o600
     assert f.contains('rabbitmq')
-
-
-def test_check_config(host):
-    f = host.file('/etc/sensu/conf.d/checks.json')
-    assert f.exists
-    assert f.is_file
-    assert f.user == 'sensu'
-    assert f.group == 'sensu'
-    assert f.mode == 0o600
     assert f.contains('check-cpu.rb')
 
 

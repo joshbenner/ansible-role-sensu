@@ -86,6 +86,7 @@ The following suffixes are merged for Sensu configurations:
 * `_sensu_filters`
 * `_sensu_mutators`
 * `_sensu_plugins`
+* `_sensu_plugin_dependencies`
 
 Example Playbook
 ----------------
