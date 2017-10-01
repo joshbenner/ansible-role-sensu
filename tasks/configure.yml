@@ -14,6 +14,12 @@
     suffix: _sensu_client_attributes
     var_name: sensu_client_attributes
 
+- name: Collect client subscriptions
+  sensu_merge:
+    suffix: _sensu_client_subscriptions
+    var_name: sensu_client_subscriptions
+    type: list
+
 - name: Configure Sensu
   copy:
     dest: "{{ sensu_config_file }}"

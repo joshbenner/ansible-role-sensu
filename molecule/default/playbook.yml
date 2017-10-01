@@ -17,6 +17,10 @@
       sensu_enable_api: yes
       test_sensu_client_attributes:
         foo: bar
+        subscriptions:
+          - example_subscription
+      test_sensu_client_subscriptions:
+        - subscription_to_be_overridden
       test_sensu_plugins:
         - cpu-checks
         - memory-checks

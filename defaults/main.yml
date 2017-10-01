@@ -26,7 +26,12 @@ sensu_config:
   rabbitmq: "{{ sensu_rabbitmq_config }}"
   redis: "{{ sensu_redis_config }}"
   api: "{{ sensu_api_config }}"
-  client: "{{ sensu_client_config | combine(sensu_client_attributes|d({})) }}"
+  client: >-
+    {{
+      sensu_client_config |
+      combine({"subscriptions": sensu_client_subscriptions | d([])}) |
+      combine(sensu_client_attributes | d({}))
+    }}
   checks: "{{ sensu_checks }}"
   handlers: "{{ sensu_handlers }}"
   filters: "{{ sensu_filters }}"
@@ -39,6 +44,8 @@ sensu_api_config: {}
 sensu_client_config: {}
 
 # Calculated by merged variables (see tasks/configuration.yml)
+# sensu_client_attributes: {}
+# sensu_client_subscriptions: []
 # sensu_checks: {}
 # sensu_handlers: {}
 # sensu_filters: {}

@@ -20,7 +20,8 @@ def test_main_config(host):
     assert f.contains('rabbitmq')
     assert f.contains('check-cpu.rb')
     assert f.contains('"foo": "bar"')
-
+    assert f.contains('example_subscription')
+    assert not f.contains('subscription_to_be_overridden')
 
 def test_server_running(host):
     server = host.service('sensu-server')
