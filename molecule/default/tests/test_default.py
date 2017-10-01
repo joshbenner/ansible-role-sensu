@@ -23,6 +23,7 @@ def test_main_config(host):
     assert f.contains('example_subscription')
     assert not f.contains('subscription_to_be_overridden')
 
+
 def test_server_running(host):
     server = host.service('sensu-server')
     assert server.is_running
