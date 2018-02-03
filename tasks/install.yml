@@ -34,9 +34,17 @@
     name: sensu{{ ('=' + sensu_version + '*') if sensu_version|length else '' }}
     state: "{{ sensu_state }}"
   when: ansible_os_family == 'Debian'
+  notify:
+    - restart sensu-server
+    - restart sensu-api
+    - restart sensu-client
 
 - name: Ensure Sensu is {{ 'UN' if not sensu_state else '' }}installed (YUM)
   yum:
     name: sensu{{ ('-' + sensu_version + '*') if sensu_version|length else '' }}
     state: "{{ sensu_state }}"
   when: ansible_os_family == 'RedHat'
+  notify:
+    - restart sensu-server
+    - restart sensu-api
+    - restart sensu-client
