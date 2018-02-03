@@ -3,6 +3,10 @@
 
 # Use shell instead of service so we can stagger restarts in a cluster.
 
+- name: sensu daemon-reload
+  systemd:
+    daemon_reload: yes
+
 - name: restart sensu-server
   shell: >
     sleep {{ sensu_cluster_interval|int * sensu_cluster_offset|int }};

@@ -35,6 +35,7 @@
     state: "{{ sensu_state }}"
   when: ansible_os_family == 'Debian'
   notify:
+    - sensu daemon-reload
     - restart sensu-server
     - restart sensu-api
     - restart sensu-client
@@ -45,6 +46,7 @@
     state: "{{ sensu_state }}"
   when: ansible_os_family == 'RedHat'
   notify:
+    - sensu daemon-reload
     - restart sensu-server
     - restart sensu-api
     - restart sensu-client
