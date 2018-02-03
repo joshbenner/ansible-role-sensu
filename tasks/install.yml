@@ -29,7 +29,14 @@
     state: "{{ 'present' if sensu_install_repo else 'absent' }}"
   when: ansible_os_family == 'RedHat'
 
-- name: Ensure Sensu is {{ 'UN' if not sensu_state else '' }}installed
-  package:
-    name: sensu{{ ('-' + sensu_version) if sensu_version|length else '' }}
+- name: Ensure Sensu is {{ 'UN' if not sensu_state else '' }}installed (APT)
+  apt:
+    name: sensu{{ ('=' + sensu_version + '*') if sensu_version|length else '' }}
     state: "{{ sensu_state }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure Sensu is {{ 'UN' if not sensu_state else '' }}installed (YUM)
+  yum:
+    name: sensu{{ ('-' + sensu_version + '*') if sensu_version|length else '' }}
+    state: "{{ sensu_state }}"
+  when: ansible_os_family == 'RedHat'
