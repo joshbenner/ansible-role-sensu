@@ -2,30 +2,30 @@
 - name: Gather list of plugin dependencies
   sensu_merge:
     suffix: _sensu_plugin_dependencies
-    var_name: sensu_plugin_dependencies
+    var_name: sensu_plugin_dependencies_merged
     type: list
 
 - name: Install plugin dependencies (APT)
   apt:
-    name: "{{ sensu_plugin_dependencies }}"
+    name: "{{ sensu_plugin_dependencies_merged }}"
     state: present
-  when: ansible_os_family == 'Debian' and sensu_plugin_dependencies | length > 0
+  when: ansible_os_family == 'Debian' and sensu_plugin_dependencies_merged | length > 0
 
 - name: Install plugin dependencies (YUM)
   yum:
-    name: "{{ sensu_plugin_dependencies }}"
+    name: "{{ sensu_plugin_dependencies_merged }}"
     state: present
-  when: ansible_os_family == 'RedHat' and sensu_plugin_dependencies | length > 0
+  when: ansible_os_family == 'RedHat' and sensu_plugin_dependencies_merged | length > 0
 
 - name: Gather list of plugins to install
   sensu_merge:
     suffix: _sensu_plugins
-    var_name: sensu_plugins
+    var_name: sensu_plugins_merged
     type: list
 
 - name: Install Sensu plugins
-  command: sensu-install -P {{ sensu_plugins | join(',') }}
-  when: sensu_plugins | length > 0
+  command: sensu-install -P {{ sensu_plugins_merged | join(',') }}
+  when: sensu_plugins_merged | length > 0
   register: _sensu_install
   changed_when: "'successfully installed Sensu plugins: []' not in _sensu_install.stdout"
   notify:

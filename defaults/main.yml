@@ -29,13 +29,13 @@ sensu_config:
   client: >-
     {{
       sensu_client_config |
-      combine({"subscriptions": sensu_client_subscriptions | d([])}) |
-      combine(sensu_client_attributes | d({}))
+      combine({"subscriptions": sensu_client_subscriptions_merged | d([])}) |
+      combine(sensu_client_attributes_merged | d({}))
     }}
-  checks: "{{ sensu_checks }}"
-  handlers: "{{ sensu_handlers }}"
-  filters: "{{ sensu_filters }}"
-  mutators: "{{ sensu_mutators }}"
+  checks: "{{ sensu_checks_merged }}"
+  handlers: "{{ sensu_handlers_merged }}"
+  filters: "{{ sensu_filters_merged }}"
+  mutators: "{{ sensu_mutators_merged }}"
 
 sensu_transport_name: rabbitmq
 sensu_rabbitmq_config: {}
@@ -44,16 +44,16 @@ sensu_api_config: {}
 sensu_client_config: {}
 
 # Calculated by merged variables (see tasks/configuration.yml)
-# sensu_client_attributes: {}
-# sensu_client_subscriptions: []
-# sensu_checks: {}
-# sensu_handlers: {}
-# sensu_filters: {}
-# sensu_mutators: {}
+# sensu_client_attributes_merged: {}
+# sensu_client_subscriptions_merged: []
+# sensu_checks_merged: {}
+# sensu_handlers_merged: {}
+# sensu_filters_merged: {}
+# sensu_mutators_merged: {}
 
 # Merged variables (see tasks/plugins.yml)
-# sensu_plugins: []
-# sensu_plugin_dependencies: []
+# sensu_plugins_merged: []
+# sensu_plugin_dependencies_merged: []
 
 sensu_cluster_offset: 0
 sensu_cluster_interval: 5

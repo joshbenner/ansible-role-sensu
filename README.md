@@ -24,7 +24,6 @@ Available variables listed below. For defaults, see `defaults/main.yml`.
 | `sensu_enable_server`       | Whether to run the server.                                            |
 | `sensu_enable_api`          | Whether to run the API.                                               |
 | `sensu_enable_client`       | Whether to run the client.                                            |
-| `sensu_plugin_dependencies` | The list of packages to install to support plugins.                   |
 | `sensu_config`              | Config tree for main config file. Override specific settings instead. |
 | `sensu_transport_name`      | Which transport Sensu should use (`rabbitmq` or `redis`).             |
 | `sensu_rabbitmq_config`     | RabbitMQ configuration scope.                                         |

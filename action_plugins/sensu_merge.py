@@ -11,8 +11,8 @@ class ActionModule(ActionBase):
 
         merged = {} if mergetype == 'dict' else []
         mergefunc = merged.update if mergetype == 'dict' else merged.extend
-        for var in (v for v in task_vars.keys() if v.endswith(suffix)):
-            mergefunc(task_vars[var])
+        for var in (v for v in sorted(task_vars.keys()) if v.endswith(suffix)):
+            mergefunc(self._templar.template(task_vars[var]))
 
         return dict(
             ansible_facts={varname: self._templar.template(merged)},
