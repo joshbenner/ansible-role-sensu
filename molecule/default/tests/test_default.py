@@ -10,6 +10,10 @@ def test_packages(host):
     assert host.package('sensu').is_installed
 
 
+def test_dir_ownership(host):
+    assert host.file('/opt/sensu').group == 'sensu'
+
+
 def test_main_config(host):
     f = host.file('/etc/sensu/config.json')
     assert f.exists

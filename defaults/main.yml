@@ -14,7 +14,8 @@ sensu_group: sensu
 
 sensu_config_file: /etc/sensu/config.json
 sensu_config_dir: /etc/sensu/conf.d
-sensu_bin: /opt/sensu/bin
+sensu_base_dir: /opt/sensu
+sensu_bin: "{{ sensu_base_dir }}/bin"
 
 sensu_enable_server: no
 sensu_enable_api: no

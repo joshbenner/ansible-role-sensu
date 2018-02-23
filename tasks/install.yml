@@ -50,3 +50,10 @@
     - restart sensu-server
     - restart sensu-api
     - restart sensu-client
+
+- name: Make {{ sensu_base_dir }} writable by {{ sensu_group }} group
+  file:
+    path: "{{ sensu_base_dir }}"
+    group: "{{ sensu_group }}"
+    state: directory
+    mode: g+rwx
