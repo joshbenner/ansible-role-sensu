@@ -10,10 +10,10 @@
     - "{{ ansible_distribution | lower }}.yml"
     - "{{ ansible_os_family | lower }}.yml"
 
-- include: install.yml
+- include_tasks: install.yml
 
-- include: plugins.yml
+- include_tasks: plugins.yml
 
-- include: configure.yml
+- include_tasks: configure.yml
 
-- include: services.yml
+- include_tasks: services.yml
