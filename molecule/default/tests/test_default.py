@@ -49,3 +49,7 @@ def test_client_running(host):
 
 def test_api_listening(host):
     assert host.socket('tcp://0.0.0.0:4567').is_listening
+
+
+def test_plugin_installed(host):
+    assert host.file('/opt/sensu/embedded/bin/check-memory.rb').exists

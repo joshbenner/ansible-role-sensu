@@ -80,11 +80,18 @@ sensu_checks:
 
 The following suffixes are merged for Sensu configurations:
 
-* `_sensu_checks`
-* `_sensu_handlers`
-* `_sensu_filters`
-* `_sensu_mutators`
-* `_sensu_plugins`
+* `_sensu_checks` - Sensu check definitions
+* `_sensu_handlers` - Sensu handler definitions
+* `_sensu_filters` - Sensu filter definitions
+* `_sensu_mutators` - Sensu mutator definitions
+* `_sensu_plugins` - Sensu plugins to install, as a string name, or object with more detail:
+
+    ```yml
+    some_prefix__sensu_plugins:
+      - name: pagerduty
+        version: 3.0.1
+    ```
+
 * `_sensu_plugin_dependencies`
 
 Example Playbook

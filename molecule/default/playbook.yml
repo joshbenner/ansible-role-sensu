@@ -27,6 +27,8 @@
         - network-checks
         - rabbitmq
         - redis
+        - name: pagerduty
+          version: 3.0.1
       test_sensu_extra_configs:
         zip: zap
       test_sensu_checks:

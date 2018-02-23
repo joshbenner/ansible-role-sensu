@@ -24,10 +24,16 @@
     type: list
 
 - name: Install Sensu plugins
-  command: sensu-install -P {{ sensu_plugins_merged | join(',') }}
-  when: sensu_plugins_merged | length > 0
+  gem:
+    name: "sensu-plugins-{{ item if item is string else item.name }}"
+    state: "{{ 'present' if item is string else item.state|d('present') }}"
+    version: "{{ omit if item is string else item.version|d(omit) }}"
+    executable: "{{ sensu_ruby_dir }}/bin/gem"
+    user_install: no
+  with_items: "{{ sensu_plugins_merged }}"
+  loop_control:
+    label: "{{ item if item is string else item.name }}{{ '' if item is string else ('-' + item.version|d('*')) }}"
   register: _sensu_install
-  changed_when: "'successfully installed Sensu plugins: []' not in _sensu_install.stdout"
   notify:
     - restart sensu-client
     - restart sensu-server
