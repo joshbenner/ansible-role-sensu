@@ -59,3 +59,6 @@ sensu_client_config: {}
 
 sensu_cluster_offset: 0
 sensu_cluster_interval: 5
+
+sensu_pin_version: yes
+sensu_install_yum_versionlock: yes

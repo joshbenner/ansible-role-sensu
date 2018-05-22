@@ -1,0 +1,13 @@
+---
+- name: Prepare
+  hosts: all
+  become: yes
+  tasks:
+    - name: Run Redis and RabbitMQ
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - rabbitmq-server
+        - "{{ 'redis' if ansible_os_family == 'RedHat' else 'redis-server' }}"

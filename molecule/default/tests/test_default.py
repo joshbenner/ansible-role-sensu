@@ -7,7 +7,9 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 def test_packages(host):
-    assert host.package('sensu').is_installed
+    package = host.package('sensu')
+    assert package.is_installed
+    assert '1.2.0' in package.version
 
 
 def test_dir_ownership(host):

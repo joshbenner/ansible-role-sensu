@@ -3,7 +3,17 @@
   apt:
     name: apt-transport-https
     state: present
-  when: sensu_install_repo and ansible_os_family == 'Debian'
+  when:
+    - sensu_install_repo
+    - ansible_os_family == 'Debian'
+
+- name: Make sure YUM can lock versions
+  yum:
+    name: yum-plugin-versionlock
+    state: present
+  when:
+    - ansible_os_family == 'RedHat'
+    - sensu_install_yum_versionlock
 
 - name: Install Sensu repo key
   apt_key:
@@ -29,6 +39,27 @@
     state: "{{ 'present' if sensu_install_repo else 'absent' }}"
   when: ansible_os_family == 'RedHat'
 
+- name: Pin Sensu package version
+  copy:
+    dest: /etc/apt/preferences.d/sensu
+    content: |
+      Package: sensu
+      Pin: version {{ sensu_version }}
+      Pin-Priority: 1002
+  when:
+    - ansible_os_family == 'Debian'
+    - sensu_state != 'absent'
+    - sensu_version|length > 0
+    - sensu_pin_version
+
+- name: Un-pin Sensu package
+  file:
+    path: /etc/apt/preferences.d/sensu
+    state: absent
+  when:
+    - ansible_os_family == 'Debian'
+    - sensu_state == 'absent' or sensu_version|length == 0
+
 - name: Ensure Sensu is {{ 'UN' if not sensu_state else '' }}installed (APT)
   apt:
     name: sensu{{ ('=' + sensu_version + '*') if sensu_version|length else '' }}
@@ -40,6 +71,15 @@
     - restart sensu-api
     - restart sensu-client
 
+- name: Unlock sensu version in YUM
+  command: yum versionlock delete sensu
+  args:
+    warn: no
+  changed_when: false
+  ignore_errors: yes
+  when:
+    - ansible_os_family == 'RedHat'
+
 - name: Ensure Sensu is {{ 'UN' if not sensu_state else '' }}installed (YUM)
   yum:
     name: sensu{{ ('-' + sensu_version + '*') if sensu_version|length else '' }}
@@ -50,6 +90,16 @@
     - restart sensu-server
     - restart sensu-api
     - restart sensu-client
+
+- name: Lock sensu version in YUM
+  command: yum versionlock sensu
+  args:
+    warn: no
+  changed_when: false
+  when:
+    - ansible_os_family == 'RedHat'
+    - sensu_version|length > 0
+    - sensu_pin_version
 
 - name: Make {{ sensu_base_dir }} writable by {{ sensu_group }} group
   file:

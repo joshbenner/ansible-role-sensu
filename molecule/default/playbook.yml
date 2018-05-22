@@ -2,17 +2,9 @@
 - name: Converge
   hosts: all
   become: yes
-  pre_tasks:
-    - name: Run Redis and RabbitMQ
-      service:
-        name: "{{ item }}"
-        state: started
-        enabled: yes
-      with_items:
-        - rabbitmq-server
-        - "{{ 'redis' if ansible_os_family == 'RedHat' else 'redis-server' }}"
   roles:
     - role: ../../..
+      sensu_version: 1.2.0
       sensu_enable_server: yes
       sensu_enable_api: yes
       test_sensu_client_attributes:
