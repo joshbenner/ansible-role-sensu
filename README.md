@@ -30,6 +30,8 @@ Available variables listed below. For defaults, see `defaults/main.yml`.
 | `sensu_redis_config`        | Redis configuration scope.                                            |
 | `sensu_api_config`          | API configuration scope.                                              |
 | `sensu_client_config`       | Client configuration scope.                                           |
+| `sensu_pin_version`         | Whether to pin a specific version (depends on `sensu_version`)        |
+| `sensu_install_yum_versionlock` | Whether to install YUM versionlock plugin. Required if pinning.   |
 
 Merged Configurations
 ---------------------
