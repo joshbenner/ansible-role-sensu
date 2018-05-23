@@ -14,6 +14,7 @@
   when:
     - ansible_os_family == 'RedHat'
     - sensu_install_yum_versionlock
+    - sensu_version|length > 0
 
 - name: Install Sensu repo key
   apt_key:
@@ -58,7 +59,7 @@
     state: absent
   when:
     - ansible_os_family == 'Debian'
-    - sensu_state == 'absent' or sensu_version|length == 0
+    - sensu_state == 'absent' or sensu_version|length == 0 or not sensu_pin_version
 
 - name: Ensure Sensu is {{ 'UN' if not sensu_state else '' }}installed (APT)
   apt:
