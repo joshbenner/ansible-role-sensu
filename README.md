@@ -95,6 +95,13 @@ The following suffixes are merged for Sensu configurations:
     ```
 
 * `_sensu_plugin_dependencies`
+* `_sensu_extensions` - Extension and version to install:
+
+    ```yml
+    some_prefix__sensu_extensions:
+      some-extension: 1.2.3
+      other-extension: absent
+    ```
 
 Example Playbook
 ----------------

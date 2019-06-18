@@ -38,6 +38,7 @@ sensu_config:
   handlers: "{{ sensu_handlers_merged }}"
   filters: "{{ sensu_filters_merged }}"
   mutators: "{{ sensu_mutators_merged }}"
+  extensions: "{{ _sensu_ext_enable }}"
 
 sensu_transport_name: rabbitmq
 sensu_rabbitmq_config: {}
@@ -56,6 +57,9 @@ sensu_client_config: {}
 # Merged variables (see tasks/plugins.yml)
 # sensu_plugins_merged: []
 # sensu_plugin_dependencies_merged: []
+
+# Merged variables (see tasks/extensions.yml)
+# sensu_extensions_merged: {}
 
 sensu_cluster_offset: 0
 sensu_cluster_interval: 5

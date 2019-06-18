@@ -9,7 +9,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 def test_packages(host):
     package = host.package('sensu')
     assert package.is_installed
-    assert '1.2.0' in package.version
+    assert '1.7.0' in package.version
 
 
 def test_dir_ownership(host):
@@ -55,3 +55,8 @@ def test_api_listening(host):
 
 def test_plugin_installed(host):
     assert host.file('/opt/sensu/embedded/bin/check-memory.rb').exists
+
+
+# Tests extension install/enable
+def test_snmp_listening(host):
+    assert host.socket('udp://0.0.0.0:1062').is_listening

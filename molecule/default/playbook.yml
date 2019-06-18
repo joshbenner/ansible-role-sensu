@@ -4,7 +4,7 @@
   become: yes
   roles:
     - role: ../../..
-      sensu_version: 1.2.0
+      sensu_version: 1.7.0
       sensu_enable_server: yes
       sensu_enable_api: yes
       test_sensu_client_attributes:
@@ -21,8 +21,13 @@
         - redis
         - name: pagerduty
           version: 3.0.1
+      test_sensu_extensions:
+        snmp-trap: 0.2.0
+        statsd: absent
       test_sensu_extra_configs:
         zip: zap
+        snmp_trap:
+          community: sekrit
       test_sensu_checks:
         check_cpu:
           command: check-cpu.rb -w 80 -c 95

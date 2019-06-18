@@ -12,6 +12,8 @@
 
 - include_tasks: install.yml
 
+- include_tasks: extensions.yml
+
 - include_tasks: plugins.yml
 
 - include_tasks: configure.yml

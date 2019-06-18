@@ -1,0 +1,23 @@
+---
+- name: Gather list of extensions to install
+  sensu_merge:
+    suffix: _sensu_extensions
+    var_name: sensu_extensions_merged
+
+- name: Install Sensu extensions
+  gem:
+    name: sensu-extensions-{{ item.key }}
+    state: "{{ 'absent' if item.value == 'absent' else 'present' }}"
+    version: "{{ omit if item.value == 'absent' else item.value }}"
+    executable: "{{ sensu_ruby_dir }}/bin/gem"
+    user_install: no
+  loop: "{{ sensu_extensions_merged | dict2items }}"
+  notify:
+    - restart sensu-client
+    - restart sensu-server
+    - restart sensu-api
+
+- name: Build config to enable extensions
+  set_fact:
+    _sensu_ext_enable: "{{ _sensu_ext_enable|d({}) | combine({item.key: {'version': item.value}}, recursive=True) }}"
+  loop: "{{ sensu_extensions_merged | dict2items | selectattr('value', 'ne', 'absent') | list }}"
